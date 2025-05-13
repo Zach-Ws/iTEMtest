@@ -7,7 +7,6 @@ buildscript {
         maven { url 'https://jitpack.io' }
         maven { url 'https://maven.minecraftforge.net/' }
         maven { url "https://plugins.gradle.org/m2/" }
-        maven { url 'https://maven.polyfrost.cc/releases' }
     }
     dependencies {
         // Skytils dependency to build with essential (for GUI)
@@ -93,7 +92,7 @@ dependencies {
     implementation 'org.dizitart:nitrite:3.4.4'
     compileOnly 'cc.polyfrost:oneconfig-1.8.9-forge:0.2.2-alpha+'
     testImplementation 'cc.polyfrost:oneconfig-1.8.9-forge:0.2.2-alpha+'
-    implementation 'cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta+'
+    implementation 'cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta'
 //    implementation 'org.dizitart:nitrite-mvstore-adapter'
 }
 
