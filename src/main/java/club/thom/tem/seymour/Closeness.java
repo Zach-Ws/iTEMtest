@@ -231,6 +231,12 @@ public class Closeness {
 
         seymourMatches = seymourMatches.subList(0, Math.min(25, seymourMatches.size()));
 
+        for (SeymourMatch match : seymourMatches) {
+            if (match.getDistance() < 5.0f) {
+                tem.getStoredItemHighlighter().startHighlightingItem(match.item);
+            }
+        }
+
         List<ClickableItem> clickableItems = Lists.newArrayList();
         for (SeymourMatch match : seymourMatches) {
             ItemStack itemStack = match.item.toItemStack(tem, true, new String[]{
