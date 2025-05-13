@@ -141,6 +141,34 @@ public class TEM {
         uuidHighlighter = new HighlightByUuid(this);
         slotHighlighter.addHighlighter(uuidHighlighter);
 
+        slotHighlighter.addHighlighter(new IShouldHighlight() {
+            @Override
+            public boolean shouldConsiderGui(GuiScreen gui) {
+                return true; // You can limit to specific GUI if needed
+            }
+        
+            @Override
+            public Integer getHighlightColor(Slot slot) {
+                if (slot == null || !slot.getHasStack()) return null;
+        
+                ItemStack stack = slot.getStack();
+                if (stack == null || stack.isEmpty()) return null;
+        
+                ArmourPieceData data = TEM.getInstance().getItems().toArmourPieceData(stack);
+                if (data == null) return null;
+        
+                String category = Closeness.seymourPieceCategories.get(data.getItemId());
+                if (category == null) return null;
+        
+                List<Closeness.ClosePiece> closest = TEM.getInstance().getSeymour().getCloseness().findClosestPieces(category, data.getIntegerHexCode());
+                if (!closest.isEmpty() && closest.get(0).getDistance() < 5) {
+                    return 0x80FFFF00; // semi-transparent yellow
+                }
+        
+                return null;
+            }
+        });
+
 
         storedItemHighlighter = new StoredItemHighlighter(this);
 
