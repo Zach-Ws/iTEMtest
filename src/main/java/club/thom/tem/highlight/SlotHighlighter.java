@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import static net.minecraft.client.gui.Gui.drawRect;
 
+
 public class SlotHighlighter {
     List<IShouldHighlight> highlighters = new ArrayList<>();
     Field guiLeft;
@@ -75,5 +76,37 @@ public class SlotHighlighter {
     private void drawBoxWithShadow(int leftX, int topY, int rightX, int bottomY, int colour, int shadowSize, int shadowColour) {
         drawRect(leftX - shadowSize, topY + shadowSize, rightX + shadowSize, bottomY - shadowSize, shadowColour);
         drawRect(leftX, topY, rightX, bottomY, colour);
+    }
+}
+
+class DistanceBasedHighlighter implements IShouldHighlight {
+    private final Closeness closeness;
+
+    public DistanceBasedHighlighter(Closeness closeness) {
+        this.closeness = closeness;
+    }
+
+    @Override
+    public boolean shouldConsiderGui(GuiScreen gui) {
+        return gui instanceof GuiContainer;
+    }
+
+    @Override
+    public Integer getHighlightColor(Slot slot) {
+        if (!slot.getHasStack()) return null;
+
+        ItemStack stack = slot.getStack();
+        ArmourPieceData data = ArmourPieceData.fromItemStack(stack);
+        if (data == null) return null;
+
+        String category = Closeness.seymourPieceCategories.get(data.getItemId());
+        if (category == null) return null;
+
+        List<Closeness.ClosePiece> closePieces = closeness.findClosestPieces(category, data.getIntegerHexCode());
+        if (!closePieces.isEmpty() && closePieces.get(0).getDistance() < 5) {
+            return 0xAA00FF; // light purple color (adjust as desired)
+        }
+
+        return null;
     }
 }
