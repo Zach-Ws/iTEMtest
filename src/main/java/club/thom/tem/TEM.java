@@ -135,7 +135,7 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(guiTickListener);
 
         slotHighlighter = new SlotHighlighter();
-        highlighter.addHighlighter(new DistanceBasedHighlighter(closeness));
+        //highlighter.addHighlighter(new DistanceBasedHighlighter(closeness));
         MinecraftForge.EVENT_BUS.register(slotHighlighter);
 
         uuidHighlighter = new HighlightByUuid(this);
